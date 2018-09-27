@@ -1,0 +1,58 @@
+--part 1.
+--1
+CREATE TABLESPACE quiz
+DATAFILE 'J' SIZE 15M,
+'L' SIZE 15M,
+'E' SIZE 15M;
+
+--2
+CREATE PROFILE student LIMIT
+  SESSIONS_PER_USER 1   
+  CONNECT_TIME UNLIMITED  
+  IDLE_TIME 20
+  FAILED_LOGIN_ATTEMPTS 4;
+  
+--3
+CREATE USER usuario_1
+IDENTIFIED BY usuario_1
+PROFILE student
+DEFAULT TABLESPACE quiz
+QUOTA UNLIMITED ON quiz;
+
+
+GRANT CONNECT TO usuario_1;
+GRANT CREATE TABLE TO usuario_1;
+
+--4
+CREATE USER usuario_2
+IDENTIFIED BY usuario_2
+PROFILE student
+DEFAULT TABLESPACE quiz
+QUOTA UNLIMITED ON quiz;
+
+GRANT CONNECT TO usuario_2;
+
+--part 2
+--1
+create table attacks (
+	id INT,
+	url VARCHAR(2048),
+	ip_address VARCHAR(20),
+	number_of_attacks INT,
+	time_of_last_attack TIMESTAMP
+);
+
+--part 3
+SELECT count (URL) 
+FROM ATTACKS
+WHERE NUMBER_OF_ATTACKS >= 1
+AND URL LIKE '%https%';
+
+SELECT URL
+FROM ATTACKS
+WHERE URL LIKE '%GOOGLE%';
+
+SELECT IP_ADDRESS, time_of_last_attack
+FROM ATTACKS
+WHERE time_of_last_attack = DATEPART(YEAR, '2017');
+
